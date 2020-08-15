@@ -13,3 +13,6 @@
 ### 使用说明 How to use this tool:
 - Easy to use ,help description is in the tool panel
 - 用起来不难，帮助说明就在工具的界面旁边的问号按钮
+
+### 脚本版本 Script Version：
+- 2020.08.15 : 0.85 beta
