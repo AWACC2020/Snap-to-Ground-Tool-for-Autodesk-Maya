@@ -3,6 +3,8 @@
 作者:AWACS 时间:2020.08.15
 
 ### 安装说明 How to install :
+- 请先在工具架上切换到你要添加此工具的tab
+- Please switch to the tab that you want to add this tool in the tool shelf
 - 直接将文件 “install Snap Ground.py” 拖曳至maya窗口,可覆盖安装
 - Simply drag and drop this file : "install Snap Ground.py" to the maya window
 
