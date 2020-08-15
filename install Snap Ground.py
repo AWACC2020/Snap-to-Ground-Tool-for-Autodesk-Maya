@@ -20,7 +20,7 @@ def MayaDropinstall():
     ContainPath = os.path.join(os.path.dirname(__file__), 'Snap_to_Ground')
     ContainPath = os.path.normpath(ContainPath)
 
-    print ContainPath
+    # print (ContainPath)
 
     if not os.path.exists(ContainPath):
         raise IOError('Cannot find ' + ContainPath)
