@@ -542,7 +542,7 @@ def Snap_To_Ground_GUI():
 
     cmds.rowLayout(nc=6 , h = 30)
     RowCounter = UIserial( RowCounter )
-    cmds.button(c=lambda *args: Snap_To_Ground_Main() , l="Excute Snap to Ground", w=150)
+    cmds.button(c=lambda *args: Snap_To_Ground_Main() , l="Execute Snap to Ground", w=150)
     cmds.setParent('..')
 
 global Question_Window_image_path 
