@@ -17,60 +17,79 @@ def onMayaDroppedPythonFile(*args, **kwargs):
 def MayaDropinstall():
     """Drag and drop this file into the scene executes the file."""
 
-    ContainPath = os.path.join(os.path.dirname(__file__), 'Snap_to_Ground')
-    ContainPath = os.path.normpath(ContainPath)
+    dic_script = {
+        "author_folder" : "AWACS",
+        "Contain_Folder" : "Snap_to_Ground",
+        "Script_folder" : "Snap_to_Ground",
+        "Script_module_import" : "Snap_Ground_CHS",
 
-    # print (ContainPath)
+        "Script_name" : "Snap_to_Ground",
+        "Script_Shelf_icon" : "icon.jpg" ,
+        "imageOverlayLabel":"",
+        "Script_annotation" : 
+        " a drop to ground script tool ",
+    }
+
+
+    ContainPath = os.path.join(os.path.dirname(__file__), dic_script["Contain_Folder"])
 
     if not os.path.exists(ContainPath):
         raise IOError('Cannot find ' + ContainPath)
 
-    User_script_dir =  cmds.internalVar(usd=1)
-    AWA_script_dir = os.path.join( User_script_dir , 'AWACS')
+    User_script_dir =  cmds.internalVar(userScriptDir=1)
+    author_folder_dir = os.path.join( User_script_dir , dic_script['author_folder'])
 
     try:
-        os.makedirs( AWA_script_dir )
+        os.makedirs( author_folder_dir )
     except:
-        # AWA_script_dir Already exist
+        # author_folder_dir Already exist
         pass
 
-    result_path = os.path.join( AWA_script_dir , 'Snap_to_Ground')
-    # print result_path
-    # result_path = os.path.normpath(result_path)
-    # print result_path
+    # Script_folder_fullpath = os.path.join( author_folder_dir , dic_script["Script_folder"] )
+    Script_folder_fullpath =  author_folder_dir +"/"+ dic_script["Script_folder"] 
+    # print Script_folder_fullpath
+    # Script_folder_fullpath = os.path.normpath(Script_folder_fullpath)
+    # print Script_folder_fullpath    
+    # print "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    # Script_folder_fullpath = os.path.normpath(Script_folder_fullpath)
+    print Script_folder_fullpath
 
-    if os.path.isdir( result_path ):
-        print ( str( result_path ) + " is Already Exist " + " -------------reinstalling")
-        shutil.rmtree( result_path )
+    if os.path.isdir( Script_folder_fullpath ):
+        print ( str( Script_folder_fullpath ) + " is Already Exist " + " -------------reinstalling")
+        shutil.rmtree( Script_folder_fullpath )
     else :
         pass
+    #Create Script folder and copy Contains from contain Folder 
+    shutil.copytree( ContainPath , Script_folder_fullpath )
 
-    shutil.copytree( ContainPath , result_path )
-
-    print ('//install success')
-
-    iconPath = os.path.join(result_path, 'icon.jpg')
-    iconPath = os.path.normpath(iconPath)
+    print ('// install success')
+    if dic_script["Script_Shelf_icon"]:
+        iconPath = os.path.join(Script_folder_fullpath, dic_script["Script_Shelf_icon"])
+        iconPath = os.path.normpath(iconPath)
+        # module_name = "BlendShape_Transfer"
+    else:
+        iconPath = "commandButton.png"
 
     command = '''
 import sys
 sys.path.append( "{path}" )
-import Snap_Ground_CHS
-reload (Snap_Ground_CHS)
-'''.format(path=result_path)
+import {module_name}
+reload ({module_name})
+'''.format(path=Script_folder_fullpath , module_name = dic_script["Script_module_import"] )
 
     shelf = maya.mel.eval('$gShelfTopLevel=$gShelfTopLevel')
     parent = cmds.tabLayout(shelf, query=True, selectTab=True)
     cmds.shelfButton(
         command=command,
-        annotation='Snap to Ground',
+        annotation=dic_script["Script_annotation"] ,
         sourceType='Python',
         image=iconPath,
         image1=iconPath,
+        imageOverlayLabel = dic_script["imageOverlayLabel"],
         parent=parent
     )
 
-    print("// Snap_Ground has been added to current shelf")
+    print("// {Script_name} has been added to current shelf".format( Script_name = dic_script["Script_name"]))
 
 
 if isMaya:
