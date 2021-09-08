@@ -16,23 +16,47 @@ def onMayaDroppedPythonFile(*args, **kwargs):
 
 def MayaDropRemove():
     """Drag and drop this file into the scene executes the file."""
+    dic_script = {
+        "author_folder" : "AWACS",
+        "Contain_Folder" : "Snap_to_Ground",
+        "Script_folder" : "Snap_to_Ground",
+        "Script_module_import" : "Snap_Ground",
 
-    User_script_dir =  cmds.internalVar(usd=1)
-    Customized_script_dir = os.path.join( User_script_dir , 'AWACS')
+        "Script_name" : "Snap_to_Ground",
+        "Script_Shelf_icon" : "icon.jpg" ,
+        "imageOverlayLabel":"",
+        "Script_annotation" : 
+        "A drop to ground script tool ",
+    }
+    
+    Popup_Dialog = True
 
-    result_path = os.path.join( Customized_script_dir , 'Snap_to_Ground')
+    User_script_dir =  cmds.internalVar(userScriptDir=1)
+    author_folder_dir = os.path.join( User_script_dir , dic_script["author_folder"])
 
-    if os.path.isdir( result_path ):
-        shutil.rmtree( result_path )
+    Script_folder_fullpath = os.path.join( author_folder_dir , dic_script["Script_folder"])
+
+    if os.path.isdir( Script_folder_fullpath ):
+        shutil.rmtree( Script_folder_fullpath )
+        confirmDialog_message = "{Script_name} has been Removed From your software, \
+you can remove the command from shelf now".format( Script_name = dic_script["Script_name"])
+        print (confirmDialog_message)
+        if Popup_Dialog:
+            cmds.confirmDialog( title='Uninstall Success', message=confirmDialog_message, button=['OK'] )
     else :
-        print ( "No such path , Nothing good to remove" )
+        confirmDialog_message = "No such path , Nothing good to remove or unistall or whatever"
+        print (confirmDialog_message)
+        if Popup_Dialog:
+            
+            cmds.confirmDialog( title='Uninstall Failed', message=confirmDialog_message, button=['OK']  )
+        return
 
-    # print (os.listdir ( Customized_script_dir ) )
+    # check if there is any thing ,if not remove entire author_folder
+    # print (os.listdir ( author_folder_dir ) )
+    if len( os.listdir ( author_folder_dir ) ) < 1:
+        shutil.rmtree( author_folder_dir )
 
-    if len( os.listdir ( Customized_script_dir ) ) < 1:
-        shutil.rmtree( Customized_script_dir )
 
-    print("// Snap_Ground has been Removed From your software, you can remove the command from shelf now")
 
 
 if isMaya:
