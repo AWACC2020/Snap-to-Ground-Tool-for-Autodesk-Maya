@@ -21,7 +21,7 @@ def MayaDropinstall():
         "author_folder" : "AWACS",
         "Contain_Folder" : "Snap_to_Ground",
         "Script_folder" : "Snap_to_Ground",
-        "Script_module_import" : "Snap_Ground",
+        "Script_module_import" : "Snap_Ground_CHS",
 
         "Script_name" : "Snap_to_Ground",
         "Script_Shelf_icon" : "icon.jpg" ,
